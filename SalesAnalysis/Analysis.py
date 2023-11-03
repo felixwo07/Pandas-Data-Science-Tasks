@@ -11,10 +11,23 @@ all_sales['Quantity Ordered'] = pd.to_numeric(all_sales['Quantity Ordered'])
 all_sales['Price Each'] = pd.to_numeric(all_sales['Price Each'])
 
 # Best Month
-all_sales['month'] = all_sales['Order Date'].str.split('/').str[0]
-all_sales['price'] = all_sales['Quantity Ordered'] * all_sales['Price Each']
-all_sales_by_month = all_sales.groupby('month')['price'].sum()
+all_sales['Month'] = all_sales['Order Date'].str.split('/').str[0]
+all_sales['Price'] = all_sales['Quantity Ordered'] * all_sales['Price Each']
+sales_by_month = all_sales.groupby('Month')['Price'].sum()
 
-# show bar graph
-# plt.bar(range(1,13), all_sales_by_month)
+### Bar Graph ###
+# plt.bar(range(1,13), sales_by_month)
+# plt.show()
+
+
+# City with highest number of sales
+all_sales['City'] = (all_sales['Purchase Address'].str.split(', ').str[1]) + " (" + (all_sales['Purchase Address'].str.split(', ').str[2].str[:2]) + ')'
+sales_by_city = all_sales.groupby('City')['Price'].sum()
+
+### Bar Graph ###
+# keys = sales_by_city.reset_index()['City']
+# plt.bar(keys, sales_by_city)
+# plt.xlabel('City')
+# plt.xticks(keys, rotation='vertical', size=8)
+# plt.ylabel('Sales')
 # plt.show()
